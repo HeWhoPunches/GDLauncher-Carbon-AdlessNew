@@ -1,3 +1,16 @@
+# GDLauncher Carbon Adless Fork
+This fork should improve your minecrafting experience by removing ads from GDLauncher Carbon.
+## Installation
+
+NB: I'll write this done once I figure out how to!
+
+If you have issues with this, I probably can't help you, since I don't know what I'm doing either -- all I have is access to VSCode and a strong hatred for ads in my minecraft launcher.
+
+Many thanks to GameTec-live and Official-Husko for doing this for earlier versions.
+- (see https://github.com/Official-Husko/GDLauncher-Carbon-adless/tree/patched and https://gist.github.com/GameTec-live/0d5fe22a97cf989010aa9957a31b3348)
+<details>
+ <summary><strong>Original README</strong> (click to expand)</summary>
+
 # GDLauncher (Carbon)
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
