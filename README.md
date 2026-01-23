@@ -6,6 +6,13 @@ NB: I'll write this done once I figure out how to!
 
 If you have issues with this, I probably can't help you, since I don't know what I'm doing either -- all I have is access to VSCode and a strong hatred for ads in my minecraft launcher.
 
+## Notes
+
+- Throws an error after "pnpm i" and cites better-sqlite3 as the cause
+-   Installing electron seems to have fixed this "npm install electron --save-dev"
+- After this, it throws an error and whines about "missing curseforge env api base"
+- Giving up, I have resorted to screwing with app.asar.
+
 Many thanks to GameTec-live and Official-Husko for doing this for earlier versions.
 - (see https://github.com/Official-Husko/GDLauncher-Carbon-adless/tree/patched and https://gist.github.com/GameTec-live/0d5fe22a97cf989010aa9957a31b3348)
 <details>
