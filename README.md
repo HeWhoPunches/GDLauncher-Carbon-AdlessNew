@@ -2,7 +2,7 @@
 This fork should improve your minecrafting experience by removing ads from GDLauncher Carbon.
 ## Installation
 
-NB: I'll write this done once I figure out how to!
+NB: I'll write this down once I figure out how to!
 
 If you have issues with this, I probably can't help you, since I don't know what I'm doing either -- all I have is access to VSCode and a strong hatred for ads in my minecraft launcher.
 
