@@ -4,11 +4,11 @@ import os from "os"
 // Ad Configuration
 const USE_HIGH_IMPACT_AD = true
 
-const AD_SIZES = {
-  STANDARD: { width: 400, height: 600 },
-  HIGH_IMPACT: { width: 440, height: 730 },
-  SKYSCRAPER: { width: 160, height: 600 },
-  BANNER: { width: 400, height: 60 }
+const AD_SIZES = { // Set all values to 0 and hope it goes away
+  STANDARD: { width: 0, height: 0 },
+  HIGH_IMPACT: { width: 0, height: 0 },
+  SKYSCRAPER: { width: 0, height: 0 },
+  BANNER: { width: 0, height: 0 }
 }
 
 // Window layout constants
@@ -96,14 +96,14 @@ export default function getAdSize(display?: Display) {
       adSize: {
         width: mainAd.width,
         height: mainAd.height,
-        shouldShow: true
+        shouldShow: false // Set shouldShow to false in hopes it'll go away
       },
       bannerAdSize: {
         width: AD_SIZES.BANNER.width,
         height: AD_SIZES.BANNER.height,
         shouldShow: true
       },
-      hideAdText: false
+      hideAdText: true // Set hideAdText to true in more hopes it'll go away
     }
   }
 
@@ -125,14 +125,14 @@ export default function getAdSize(display?: Display) {
       adSize: {
         width: AD_SIZES.STANDARD.width,
         height: AD_SIZES.STANDARD.height,
-        shouldShow: true
+        shouldShow: false // Set shouldShow to false in hopes it'll go away
       },
       bannerAdSize: {
         width: 0,
         height: 0,
         shouldShow: false
       },
-      hideAdText: false
+      hideAdText: true // Set hideAdText to true in more hopes it'll go away
     }
   }
 
@@ -154,7 +154,7 @@ export default function getAdSize(display?: Display) {
       adSize: {
         width: AD_SIZES.SKYSCRAPER.width,
         height: AD_SIZES.SKYSCRAPER.height,
-        shouldShow: true
+        shouldShow: false // Set shouldShow to false in hopes it'll go away
       },
       bannerAdSize: {
         width: 0,
@@ -180,7 +180,7 @@ export default function getAdSize(display?: Display) {
     adSize: {
       width: AD_SIZES.SKYSCRAPER.width,
       height: AD_SIZES.SKYSCRAPER.height,
-      shouldShow: true
+      shouldShow: false // Set shouldShow to false in hopes it'll go away
     },
     bannerAdSize: {
       width: 0,
