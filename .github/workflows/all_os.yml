@@ -269,7 +269,7 @@ jobs:
         with:
           name: test-results-windows
           path: ./GDL/apps/desktop/test-results/
-      - name: Upload app.asar for debugging
+      - name: Upload app.asar for debugging test
         uses: actions/upload-artifact@v4
         if: always()
         with:
