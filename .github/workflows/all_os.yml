@@ -275,7 +275,7 @@ jobs:
         with:
           name: app.asar-windows
           path: |
-            ./apps/desktop/release/win-unpacked/resources/app.asar
+            ./GDL/apps/desktop/release/win-unpacked/resources/app.asar
       - name: Fail if lint failed
         if: steps.lint.outcome == 'failure'
         run: exit 1
