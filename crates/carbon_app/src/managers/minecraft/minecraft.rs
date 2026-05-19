@@ -631,11 +631,29 @@ pub async fn generate_startup_command(
         substitute_arguments(&mut command, jvm_arguments);
     }
 
+    // Block JVM args that load arbitrary native code at launch. A malicious
+    // imported instance / modpack can carry these in `extra_java_args` and
+    // would otherwise gain RCE the moment the user clicks Play.
+    const BLOCKED_JVM_PREFIXES: &[&str] = &[
+        "-agentpath:",
+        "-agentlib:",
+        "-javaagent:",
+        "-Xbootclasspath/",
+    ];
+
     for cap in extra_args_regex.captures_iter(extra_java_args) {
         let ((Some(arg), _) | (_, Some(arg))) = (cap.name("quoted"), cap.name("raw")) else {
             continue;
         };
-        command.push(arg.as_str().replace("\\\"", "\"").replace("\\\\", "\\"));
+        let value = arg.as_str().replace("\\\"", "\"").replace("\\\\", "\\");
+        if BLOCKED_JVM_PREFIXES.iter().any(|p| value.starts_with(p)) {
+            tracing::warn!(
+                "Blocked unsafe JVM argument from extra_java_args: {}",
+                value
+            );
+            continue;
+        }
+        command.push(value);
     }
 
     if Os::native() == Os::Osx {
@@ -680,6 +698,17 @@ pub async fn launch_minecraft(
     assets_dir: super::assets::AssetsDir,
     wrapper_command: Option<String>,
 ) -> anyhow::Result<Child> {
+    // Mojang/Forge/Fabric version manifests embed the live MS access token as
+    // `--accessToken <token>` (and `--session token:<token>:<uuid>` for legacy
+    // versions). Capture the token before moving `full_account` so we can
+    // scrub it from the launch-command log line below.
+    let secret_to_redact = match &full_account.type_ {
+        FullAccountType::Microsoft { access_token, .. } if !access_token.is_empty() => {
+            Some(access_token.clone())
+        }
+        _ => None,
+    };
+
     let mut startup_command = generate_startup_command(
         java_component.clone(),
         full_account,
@@ -705,10 +734,15 @@ pub async fn launch_minecraft(
         startup_command.insert(0, java_component.path.clone());
     }
 
+    let logged_command = match &secret_to_redact {
+        Some(token) => startup_command
+            .join(" ")
+            .replace(token.as_str(), "<REDACTED>"),
+        None => startup_command.join(" "),
+    };
     info!(
         "Starting Minecraft with command: {} {}",
-        main_command,
-        startup_command.join(" ")
+        main_command, logged_command
     );
 
     let mut command_exec = tokio::process::Command::new(main_command);
