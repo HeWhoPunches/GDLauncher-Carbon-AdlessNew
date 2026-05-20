@@ -7,7 +7,7 @@ New method as of May 19, 2026:
 - Decompile your app.asar into a folder (note that app.asar is typically found in appdata/local/programs/@gddesktop/resources)
 - Within the decompiled app.asar, navigate to dist/mainWindow/index.html
 - Open index.html in vscode (or whatever you use), and replace the ad script under <title>GDLauncher Carbon</title> with the code block below
--   Alternatively, download the index.html here and replace it.
+  -  Alternatively, download the index.html here and replace it.
 - Save, recompile, replace, and you should be good to go.
 ```
 <script>
