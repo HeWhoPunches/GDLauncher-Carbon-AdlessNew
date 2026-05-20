@@ -80,14 +80,13 @@ jobs:
         with:
           name: test-results-macos
           path: ./GDL/apps/desktop/test-results/
-      - name: Upload main.log for debugging
+      - name: Upload app.asar for debugging
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: logs-macos
+          name: app.asar-macos
           path: |
-            ./GDL/apps/desktop/release/mac-universal/gdl_data/main.log
-            ./GDL/apps/desktop/release/mac-universal/gdl_data/data/__gdl_logs__/*.log
+            ./GDL/apps/desktop/release/mac-universal/resources/app.asar
       - name: Fail if lint failed
         if: steps.lint.outcome == 'failure'
         run: exit 1
@@ -172,14 +171,13 @@ jobs:
         with:
           name: test-results-linux
           path: ./GDL/apps/desktop/test-results/
-      - name: Upload main.log for debugging
+      - name: Upload app.asar for debugging
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: logs-linux
+          name: app.asar-linux
           path: |
-            ./GDL/apps/desktop/release/linux-unpacked/gdl_data/main.log
-            ./GDL/apps/desktop/release/linux-unpacked/gdl_data/data/__gdl_logs__/*.log
+            ./GDL/apps/desktop/release/linux-unpacked/resources/app.asar
       - name: Fail if lint failed
         if: steps.lint.outcome == 'failure'
         run: exit 1
@@ -269,14 +267,13 @@ jobs:
         with:
           name: test-results-windows
           path: ./GDL/apps/desktop/test-results/
-      - name: Upload main.log for debugging
+      - name: Upload app.asar for debugging test
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: logs-windows
+          name: app.asar-windows
           path: |
-            ./GDL/apps/desktop/release/win-unpacked/gdl_data/main.log
-            ./GDL/apps/desktop/release/win-unpacked/gdl_data/data/__gdl_logs__/*.log
+            ./GDL/apps/desktop/release/win-unpacked/resources/app.asar
       - name: Fail if lint failed
         if: steps.lint.outcome == 'failure'
         run: exit 1
