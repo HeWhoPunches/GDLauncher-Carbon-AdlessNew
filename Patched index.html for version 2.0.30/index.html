@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en" style="margin: 0; padding: 0; background: #1e2129">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="./assets/images/gdlauncher_logo.svg"
+    />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+       script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.gdl.gg;
+       img-src 'self' data: https: blob: http://127.0.0.1:* http://localhost:* http://i.imgur.com;
+       media-src 'self' https://*.gdl.gg;
+       default-src 'unsafe-inline' 'self';
+       frame-src 'self' https: https://youtube.com;
+       connect-src 'self' data: ws://127.0.0.1:* https://www.minecraft.net https://launchercontent.mojang.com http://127.0.0.1:* https://unpkg.com/@rive-app/canvas@2.21.5/rive.wasm https://cdn.jsdelivr.net/npm/@rive-app/canvas@2.21.5/rive_fallback.wasm https://*.gdl.gg;
+     "
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 300;
+        src:
+          local("Ubuntu"),
+          url("assets/fonts/ubuntu-light-webfont.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 400;
+        src:
+          local("Ubuntu"),
+          url("assets/fonts/ubuntu-regular-webfont.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 500;
+        src:
+          local("Ubuntu"),
+          url("assets/fonts/ubuntu-medium-webfont.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Ubuntu";
+        font-style: normal;
+        font-weight: 600;
+        src:
+          local("Ubuntu"),
+          url("assets/fonts/ubuntu-bold-webfont.woff2") format("woff2");
+      }
+
+      @font-face {
+        font-family: "Ubuntu Mono";
+        font-style: normal;
+        font-weight: 400;
+        src:
+          local("Ubuntu Mono"),
+          url("assets/fonts/UbuntuMono-Regular.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Ubuntu Mono";
+        font-style: normal;
+        font-weight: 500;
+        src:
+          local("Ubuntu Mono"),
+          url("assets/fonts/UbuntuMono-Bold.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Monocraft";
+        font-style: normal;
+        font-weight: 300;
+        src:
+          local("Monocraft"),
+          url("assets/fonts/monocraft-light.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Monocraft";
+        font-style: normal;
+        font-weight: 400;
+        src:
+          local("Monocraft"),
+          url("assets/fonts/monocraft.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Monocraft";
+        font-style: normal;
+        font-weight: 500;
+        src:
+          local("Monocraft"),
+          url("assets/fonts/monocraft-semibold.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "Monocraft";
+        font-style: normal;
+        font-weight: 600;
+        src:
+          local("Monocraft"),
+          url("assets/fonts/monocraft-bold.ttf") format("truetype");
+      }
+
+      @font-face {
+        font-family: "W95FA";
+        font-style: normal;
+        font-weight: normal;
+        src:
+          local("W95FA"),
+          url("assets/fonts/w95fa.woff2") format("woff2");
+      }
+
+      * {
+        font-family: var(--font);
+
+        font-synthesis: none;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* View transition classes */
+
+      @keyframes slide-out-to-left {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-100%);
+        }
+      }
+
+      @keyframes slide-in-from-right {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      @keyframes slide-out-to-right {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(100%);
+        }
+      }
+
+      @keyframes slide-in-from-left {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      /* Base transitions for all view transitions */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 250ms;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+        will-change: transform;
+        contain: paint;
+      }
+
+      .disable-view-transition {
+        view-transition-name: disable-view-transition;
+      }
+
+      ::view-transition-old(disable-view-transition),
+      ::view-transition-new(disable-view-transition) {
+        animation-duration: 0s;
+      }
+
+      .slide-right-transition {
+        view-transition-name: slide-right-transition;
+      }
+
+      .slide-left-transition {
+        view-transition-name: slide-left-transition;
+      }
+
+      ::view-transition-old(slide-right-transition),
+      ::view-transition-new(slide-right-transition) {
+        animation-duration: 250ms;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+        will-change: transform;
+        contain: paint;
+      }
+
+      ::view-transition-old(slide-left-transition),
+      ::view-transition-new(slide-left-transition) {
+        animation-duration: 250ms;
+        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        animation-fill-mode: both;
+        will-change: transform;
+        contain: paint;
+      }
+
+      ::view-transition-old(slide-right-transition) {
+        animation-name: slide-out-to-left;
+      }
+
+      ::view-transition-new(slide-right-transition) {
+        animation-name: slide-in-from-right;
+      }
+
+      ::view-transition-old(slide-left-transition) {
+        animation-name: slide-out-to-right;
+      }
+
+      ::view-transition-new(slide-left-transition) {
+        animation-name: slide-in-from-left;
+      }
+
+      html,
+      body {
+        background: rgb(var(--darkSlate-800));
+        color: white;
+      }
+
+      img {
+        -webkit-user-drag: none;
+      }
+
+      #root {
+        /* transform: translateY(100%);
+        transition: transform 0.25s ease-out;
+        will-change: transform; */
+      }
+
+      *:not(#instance_logs_container *) {
+        user-select: none;
+        cursor: default;
+      }
+
+      #instance_logs_container * {
+        user-select: text;
+        cursor: auto;
+        font-family: var(--font-mono);
+      }
+
+      *[data-cursor-pointer] {
+        cursor: pointer !important;
+      }
+
+      input {
+        cursor: text !important;
+      }
+
+      .instance-tile-spinning {
+        background-image: linear-gradient(to right, transparent, transparent),
+          conic-gradient(
+            from var(--instance-tile-angle),
+            rgb(var(--primary)) 0deg 90deg,
+            transparent 90deg 180deg,
+            transparent 180deg 270deg,
+            transparent 270deg 360deg
+          );
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+      }
+
+      @keyframes rotate {
+        to {
+          --instance-tile-angle: 360deg;
+        }
+      }
+
+      .instance-tile-spinning {
+        animation: rotate 4s linear infinite;
+      }
+
+      @property --instance-tile-angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+      }
+
+      @keyframes pulse-new-instance {
+        0%,
+        100% {
+          outline-color: rgb(var(--primary-500));
+        }
+        50% {
+          outline-color: transparent;
+        }
+      }
+
+      .instance-tile-new {
+        outline: 2px solid rgb(var(--primary-500));
+        outline-offset: 0px;
+        border-radius: 1rem;
+        animation: pulse-new-instance 1.5s ease-in-out infinite;
+      }
+
+      .appFatalCrash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgb(var(--darkSlate-800));
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 999999;
+        font-size: 1.7rem;
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+      }
+      .appFatalCrash * {
+        user-select: text;
+      }
+
+      #news_article_content * {
+        user-select: text;
+        cursor: auto;
+      }
+
+      #news_article_content a {
+        cursor: pointer !important;
+      }
+    </style>
+    <title>GoonLauncher Carbon</title>
+    <script>
+      function removeAds() {
+        const styleId = "gdlauncher-no-ads-style"
+
+        if (document.getElementById(styleId)) return
+
+        const style = document.createElement("style")
+        style.id = styleId
+
+        style.textContent = `
+          /* Main layout */
+          main > div {
+            display: flex !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: hidden !important;
+          }
+
+          /* Main content area */
+          main > div > div:first-child {
+            flex: 1 1 auto !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-right: 0 !important;
+            padding-right: 0 !important;
+          }
+
+          /* Ad column */
+          main > div > div:nth-child(2) {
+            display: none !important;
+            width: 0 !important;
+            min-width: 0 !important;
+            max-width: 0 !important;
+            flex: 0 0 0 !important;
+            overflow: hidden !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+          }
+
+          /* Common ad/sidebar selectors */
+          [class*="ad"],
+          [class*="banner"],
+          [class*="sponsor"] {
+            display: none !important;
+          }
+        `
+
+        document.head.appendChild(style)
+      }
+
+      window.addEventListener("DOMContentLoaded", removeAds)
+
+      // Re-apply after React rerenders
+      setInterval(removeAds, 1000)
+    </script>
+
+    <script type="module" crossorigin src="./assets/index-D2ZQcx6Y.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B0N1KD_D.css">
+  </head>
+  <body
+    style="margin: 0; padding: 0; overflow: hidden; background: #1e2129"
+    spellcheck="false"
+  >
+    <div
+      id="overlay"
+      style="
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 10000;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: none;
+      "
+    ></div>
+    <div id="root"></div>
+    <div id="appFatalCrash"></div>
+  </body>
+</html>
