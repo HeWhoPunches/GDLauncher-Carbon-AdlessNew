@@ -2,18 +2,78 @@
 This fork should improve your minecrafting experience by removing ads from GDLauncher Carbon.
 ## Installation
 
-NB: I'll write this down once I figure out how to!
+New method as of May 19, 2026:
+- Download electron, or anything that lets you unpack and repack .asar files
+- Decompile your app.asar into a folder (note that app.asar is typically found in appdata/local/programs/@gddesktop/resources)
+- Within the decompiled app.asar, navigate to dist/mainWindow/index.html
+- Open index.html in vscode (or whatever you use), and replace the ad script under <title>GDLauncher Carbon</title> with the code block below
+-   Alternatively, download the index.html here and replace it.
+- Save, recompile, replace, and you should be good to go.
+```
+<script>
+  function removeAds() {
+    const styleId = "gdlauncher-no-ads-style"
+
+    if (document.getElementById(styleId)) return
+
+    const style = document.createElement("style")
+    style.id = styleId
+
+    style.textContent = `
+      /* Main layout */
+      main > div {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      /* Main content area */
+      main > div > div:first-child {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      /* Ad column */
+      main > div > div:nth-child(2) {
+        display: none !important;
+        width: 0 !important;
+        min-width: 0 !important;
+        max-width: 0 !important;
+        flex: 0 0 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+      }
+
+      /* Common ad/sidebar selectors */
+      [class*="ad"],
+      [class*="banner"],
+      [class*="sponsor"] {
+        display: none !important;
+      }
+    `
+
+    document.head.appendChild(style)
+  }
+
+  window.addEventListener("DOMContentLoaded", removeAds)
+
+  // Re-apply after React rerenders
+  setInterval(removeAds, 1000)
+</script>
+``` 
 
 If you have issues with this, I probably can't help you, since I don't know what I'm doing either -- all I have is access to VSCode and a strong hatred for ads in my minecraft launcher.
 
 ## Notes
 
-- Throws an error after "pnpm i" and cites better-sqlite3 as the cause
--   Installing electron seems to have fixed this "npm install electron --save-dev"
-- After this, it throws an error and whines about "missing curseforge env api base"
-- Giving up, I have resorted to screwing with app.asar.
 
-Many thanks to GameTec-live and Official-Husko for doing this for earlier versions.
+Many thanks to GameTec-live and Official-Husko for doing this for earlier versions. Thanks also to kazami-ryuunosuke for making a workflow that gives you the app.asar (that I couldn't get working unfortunately).
 - (see https://github.com/Official-Husko/GDLauncher-Carbon-adless/tree/patched and https://gist.github.com/GameTec-live/0d5fe22a97cf989010aa9957a31b3348)
 <details>
  <summary><strong>Original README</strong> (click to expand)</summary>
